@@ -29,4 +29,4 @@ app.get("/*", (req, res) => {
     let file = path.basename(req.url);
     res.render(`${file}.hbs`);
 })
-app.listen(3000);
+app.listen(80);
