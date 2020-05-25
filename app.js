@@ -5,6 +5,7 @@ const expressHbs = require("express-handlebars");
 const hbs = require("hbs");
 const app = express();
   
+const PORT = process.env.PORT || 5000;
 // устанавливаем настройки для файлов layout
 app.engine("hbs", expressHbs(
     {
@@ -29,4 +30,4 @@ app.get("/*", (req, res) => {
     let file = path.basename(req.url);
     res.render(`${file}.hbs`);
 })
-app.listen(80);
+app.listen(PORT);
