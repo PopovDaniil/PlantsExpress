@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    min-width: 400px;
+}
+header {
+    height: 400px;
+    background-image: url(../images/header-bg.png);
+    background-position: center;
+}
+menu {
+    margin: 0px;
+}
+@media (max-width: 993px) {
+    aside {
+        display: none;
+        position: absolute;
+        top: 400px;
+        right: 0px;
+        padding: 0px !important;
+        background-color: white !important;
+        z-index: 2;
+    }
+    aside.show-sidebar {
+        display: block;
+    }
+}
+.back-black-opacity {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.fixed {
+    position: fixed;
+}
+@media (max-width: 1100px) {
+    p {
+        margin: 0px;
+    }
+}
+img {
+    min-width: 40px;
+}
+.logo {
+    height: 72px;
+}
+a {
+    text-decoration: none;
+}
+.padding-child *{
+    padding: 3px;
+}
+*[onclick] {
+    cursor: pointer;
+}
