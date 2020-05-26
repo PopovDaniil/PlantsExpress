@@ -19,7 +19,7 @@ app.use(express.static(__dirname + "/public"));
 hbs.registerPartials(__dirname + "/views/partials");
  
 app.get("/catalog/*", (req,res) => {
-    console.log(path.basename(req.url))
+    res.render(path.basename(req.url));
 })
 
 app.get("/", (req,res) => {
