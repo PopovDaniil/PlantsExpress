@@ -40,6 +40,9 @@ menu {
 img {
     min-width: 40px;
 }
+h1 {
+    text-align: center;
+}
 .logo {
     height: 72px;
 }
@@ -51,4 +54,11 @@ a {
 }
 *[onclick] {
     cursor: pointer;
+}
+td[onclick] {
+    text-decoration: underline;
+}
+
+.underline {
+    text-decoration: underline;
 }
