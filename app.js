@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 // устанавливаем настройки для файлов layout
 app.engine("hbs", expressHbs(
     {
-        layoutsDir: "views/layouts", 
+        layoutsDir: "views/layouts/", 
         defaultLayout: "layout",
         extname: "hbs"
     }
