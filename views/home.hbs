@@ -1,58 +1,12 @@
-    <div class="w3-row-padding">
-            <div class="w3-third">
-                <section class="w3-card-4 w3-container w3-theme w3-margin-top">
-                    <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-            <div class="w3-third">
-                <section class="w3-card w3-container w3-theme w3-margin-top">
-                    <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-            <div class="w3-third">
-                <section class="w3-card w3-container w3-theme w3-margin-top">
-                    <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-        </div>
-        <div class="w3-row-padding w3-section">
-            <div class="w3-third">
-                <section class="w3-card w3-container w3-theme">
-                    <img src="/images/Polytrichum_commune-small2.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-            <div class="w3-third">
-                <section class="w3-card w3-container w3-theme">
-                    <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-            <div class="w3-third">
-                <section class="w3-card w3-container w3-theme">
-                    <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
-                    <div class="w3-col w3-padding">
-                        <span class="w3-xlarge">Кукушкин лён</span>
-                        <p class="w3-small">Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»</p>
-                    </div>
-                </section>
-            </div>
-        </div>
+<div class="flex-container">
+    {{#each blocks}}
+    <div class="w3-padding w3-half">
+        <section class="w3-card-4 w3-container w3-theme w3-margin-top">
+            <img src="/images/Polytrichum_commune-small.jpeg" alt="" class="w3-col">
+            <div class="w3-col w3-padding">
+                <span class="w3-xlarge">{{name}}</span>
+                <p class="w3-small">{{description}}
+        </section>
+    </div>
+    {{/each}}
+</div>
