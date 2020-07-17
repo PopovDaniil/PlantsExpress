@@ -1,10 +1,15 @@
 <div class="w3-section">
     <section class="w3-card w3-padding w3-theme w3-container">
-<form method="POST" action="">
+<form method="POST">
     Название: <input type="text" name="name"><br>
     Латинское название: <input type="text" name="latin"><br>
     Описание: <br> <textarea name="description" cols="30" rows="10"></textarea><br>
     <input type="submit" value="Записать">
 </form>
 </section>
+{{#each list}}
+    {{name}}({{latin}})<br>
+    <p>{{description}}</p>
+    <hr>
+{{/each}}
 </div>

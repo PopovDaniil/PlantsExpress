@@ -3,12 +3,24 @@ const express = require("express");
 const expressHbs = require("express-handlebars");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
-const MongoClient = require('mongodb').MongoClient;
 const app = express();
+const mariadb = require("mariadb");
 const parser = bodyParser.urlencoded();
-  
-const catalog = {};
+/**
+ * @type {mariadb.Connection}
+ * */
+let db;
 const PORT = process.env.PORT || 5000;
+
+(async function () {
+db = await mariadb.createConnection({
+    host: "localhost",
+    user: "daniil",
+    password: "12qw"
+});
+db.query("USE catalog").then(val=>console.log(val));
+})()
+
 
 /**
  * @param {Array} array 
@@ -28,40 +40,6 @@ function selectRandom(array,number) {
     return ret;
 }
 
-const client = new MongoClient("mongodb://localhost:27017",{ useUnifiedTopology: true });
-
-client.connect().then(base => {
-    const db = base.db("plants");
-    const catalog = db.collection("catalog");
-     /* catalog.insertOne({
-          "scientific": [
-              {
-                "title": "Кукушкин лён1",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              },
-              {
-                "title": "Кукушкин лён2",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              },
-              {
-                "title": "Кукушкин лён3",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              },      
-              {
-                "title": "Кукушкин лён4",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              },
-              {
-                "title": "Кукушкин лён5",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              },
-              {
-                "title": "Кукушкин лён6",
-                "text": "Стройные коричневатые стебли кукушкиного льна покрыты небольшими тёмно-зелёными листьями и немного напоминают растение льна в миниатюре. Отсюда происходит вторая часть названия — лён. Коробочки, появляющиеся на женских растениях, напоминают кукушку, сидящую на «шесте»"
-              }
-          ]
-        }).then(val => console.log(val))  */
-});
 app.engine("hbs", expressHbs(
     {
         layoutsDir: "views/layouts/", 
@@ -74,28 +52,28 @@ app.use(express.static(__dirname + "/public"));
 hbs.registerPartials(__dirname + "/views/partials");
 
 app.get("/catalog/:id", async (req,res) => {
-    const data = await client.db("catalog").collection("scientific").findOne({"latin":req.params.id})
+    const data = await db.query(`SELECT * FROM Scientific WHERE LatinName='${req.params.id}'`);
     res.render("plant", {
-      plant: data
+      plant: data[0]
     });
 });
 
 app.get("/", async (req,res) => {
-    const data = await client.db("catalog").collection("scientific").find().toArray();
-    const sci = data[0] || [];
-    console.log(sci); 
+    const data = await db.query(`SELECT * FROM Scientific`);
     res.render("home.hbs",{
         blocks:  selectRandom(data,6)
     });
 });
-app.post("/admin", parser, (req,res) => {
-  for (let i in req.body) {
-    i = i.toLowerCase();
-  }
+app.post("/admin", parser, async (req,res) => {
+  const data = req.body;
+  data.latin = data.latin.toLowerCase();
   client.db("catalog").collection("scientific").insertOne(req.body)
   .then(val => console.log(val))
   .catch(err => console.error(err));
-  res.render("admin.hbs");
+  const catalog = await client.db("catalog").collection("scientific").find().toArray();
+  res.render("admin",{
+    list: catalog
+  });
 });
 app.get("/*", (req, res) => {
     let file = path.basename(req.url);
