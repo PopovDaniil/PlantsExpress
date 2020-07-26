@@ -40,6 +40,18 @@ menu {
 img {
     min-width: 40px;
 }
+img.small {
+    max-width: 150px;
+}
+.vert-middle {
+    vertical-align: middle;
+}
+:invalid {
+    outline-color: red;
+}
+:valid {
+    outline-color: green;
+}
 h1 {
     text-align: center;
 }

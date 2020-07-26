@@ -29,3 +29,13 @@ function copy() {
   x.innerHTML = "Адрес скопирован";
   setTimeout(() => x.innerHTML = t,2000);
 }
+
+async function deleteItem(latin) {
+  await fetch(`/catalog/${latin}`,{method: "DELETE"}).then(location.reload());
+}
+
+async function editItem(id) {
+  const res = await fetch(`/catalog/${id}.json`);
+  const data = await res.json();
+  console.log(data)
+}

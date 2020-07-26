@@ -1,15 +1,19 @@
 <div class="w3-section">
     <section class="w3-card w3-padding w3-theme w3-container">
+
 <form method="POST">
-    Название: <input type="text" name="name"><br>
-    Латинское название: <input type="text" name="latin"><br>
-    Описание: <br> <textarea name="description" cols="30" rows="10"></textarea><br>
+    Название: <input type="text" name="name" value="{{data.Name}}" required maxlength="100"><br>
+    Латинское название: <input type="text" name="latin" value="{{data.LatinName}}" {{#if data}}readonly{{/if}} required maxlength="100"><br>
+    Описание: <br> <textarea name="description" cols="30" rows="10" required>{{data.Description}}</textarea><br>
     <input type="submit" value="Записать">
 </form>
+
 </section>
 {{#each list}}
-    {{name}}({{latin}})<br>
-    <p>{{description}}</p>
+    {{Name}}({{LatinName}})<br>
+    <p>{{Description}}</p>
+    <a href="/catalog/{{LatinName}}/edit" class="underline">Редактировать</a>
+    <a onclick="deleteItem({{LatinName}})" class="underline">Удалить</a>
     <hr>
 {{/each}}
 </div>
