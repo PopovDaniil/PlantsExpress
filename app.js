@@ -74,18 +74,18 @@ app.post("/catalog/:latin/edit", parser, async (req, res) => {
 app.get("/catalog/new", async (req, res) => {
     const catalog = await db.query("SELECT * FROM items")
     res.render("admin", {
-        list: catalog,
         data: []
     });
 });
 app.post("/catalog/new", parser, async (req, res) => {
+    console.log(1);
     const data = req.body;
     data.latin = data.latin.toLowerCase();
     db.query(`INSERT INTO items (Name,LatinName,Description) VALUES ('${data.name}','${data.latin}','${data.description}');`)
         .then(val => console.log(val))
         .catch(err => console.error(err));
     const catalog = await db.query("SELECT * FROM items")
-    res.redirect(".")
+    res.redirect(".");
 });
 app.get("/catalog/show",async (req,res) => {
     const catalog = await db.query("SELECT * FROM items")

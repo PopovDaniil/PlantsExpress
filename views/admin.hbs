@@ -1,19 +1,21 @@
 <div class="w3-section">
     <section class="w3-card w3-padding w3-theme w3-container">
-
+{{#unless list}}<h2>Создание элемента</h2>
 <form method="POST">
     Название: <input type="text" name="name" value="{{data.Name}}" required maxlength="100"><br>
     Латинское название: <input type="text" name="latin" value="{{data.LatinName}}" {{#if data}}readonly{{/if}} required maxlength="100"><br>
     Описание: <br> <textarea name="description" cols="30" rows="10" required>{{data.Description}}</textarea><br>
     <input type="submit" value="Записать">
 </form>
-
+{{/unless}}
 </section>
+{{#if list}}<h2>Редактирование каталога</h2>
 {{#each list}}
-    {{Name}}({{LatinName}})<br>
+    <span class="name">{{Name}}({{LatinName}})</span><br>
     <p>{{Description}}</p>
     <a href="/catalog/{{LatinName}}/edit" class="underline">Редактировать</a>
     <a onclick="deleteItem({{LatinName}})" class="underline">Удалить</a>
     <hr>
 {{/each}}
+{{/if}}
 </div>
