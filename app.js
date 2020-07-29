@@ -101,7 +101,7 @@ app.get("/catalog/:latin", async (req, res) => {
 });
 
 app.delete("/catalog/:latin", async (req,res) => {
-    db.query(`DELETE FROM items WHERE LatinName=${req.params.latin}`).then(res.sendStatus(200));
+    db.query(`DELETE FROM items WHERE LatinName='${req.params.latin}'`).then(val=>{res.sendStatus(200);console.log(val)});
 });
 app.get("/", async (req, res) => {
     const data = await db.query(`SELECT * FROM items`);
