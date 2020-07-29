@@ -11,11 +11,16 @@ const DBParams = {
     password: "12qw"
 };
 const DBPool = createPool(DBParams);
+const testRecord = {
+    name: "Ромашка",
+    latin: "chamomilla",
+    description: "травянистое растение"
+}
 /**
  * 
  * @param {string} page 
  * @param {string} sel 
- * @returns {Promise<HTMLElement>}
+ * @returns {Promise<HTMLElement[]>}
  */
 function getElements(page, sel) {
     return new Promise((resolve, reject) => {
@@ -40,7 +45,7 @@ before("Проверка соединения", function() {
     it("Соединение с базой", async function() {
         const db = await DBPool.getConnection().catch(err => { assert.fail(err.message) });
         db.query("USE catalog;");
-        db.query(`INSERT INTO items (Name,LatinName,Description) VALUES ('Ромашка','chamomilla','травянистое растение');`)
+        db.query(`INSERT INTO items (Name,LatinName,Description) VALUES ('${testRecord.name}','${testRecord.latin}','${testRecord.description}');`)
         db.end();
     })
 });
@@ -56,10 +61,10 @@ describe("Проверка маршрутов", function () {
         assert.isDefined(await getElements(`${rootPath}/catalog`, "a[href=/catalog/lifeform]"));
     }); 
     it("get /catalog/:plant", async function () {
-        const title = await getElements(`${rootPath}/catalog/chamomilla`, "#name");
-        assert.include(title[0].innerHTML, "Ромашка");
-        const descr = await getElements(`${rootPath}/catalog/chamomilla`, "#description");
-        assert.include(descr[0].innerHTML, "Ромашка - травянистое растение");
+        const title = await getElements(`${rootPath}/catalog/${testRecord.latin}`, "#name");
+        assert.include(title[0].innerHTML, testRecord.name);
+        const descr = await getElements(`${rootPath}/catalog/${testRecord.latin}`, "#description");
+        assert.include(descr[0].innerHTML, `${testRecord.name} - ${testRecord.description}`);
     });
     it("Страница создания элемента каталога", async function() {
         const title = await getElements(`${rootPath}/catalog/new`, "h2");
@@ -71,10 +76,17 @@ describe("Проверка маршрутов", function () {
         const name = await getElements(`${rootPath}/catalog/show`, ".name");
         const count = await DBPool.query("SELECT COUNT(ID) FROM catalog.items");
         const id = count[0]['COUNT(ID)'];
-        assert.propertyVal(name[id-1], "innerHTML","Ромашка(chamomilla)");
+        assert.propertyVal(name[id-1], "innerHTML",`${testRecord.name}(${testRecord.latin})`);
     });
     it("Создание элемента каталога");
-    it("Страница редактирования элемента каталога");
+    it("Страница редактирования элемента каталога", async function() {
+        const form = {
+            name: (await getElements(`${rootPath}/catalog/${testRecord.latin}/edit`, "[name=name]"))[0].getAttribute("value"),
+            latin: (await getElements(`${rootPath}/catalog/${testRecord.latin}/edit`, "[name=latin]"))[0].getAttribute("value"),
+            description: (await getElements(`${rootPath}/catalog/${testRecord.latin}/edit`, "[name=description]"))[0].innerHTML
+        }
+        assert.deepEqual(form,testRecord);
+    });
     it("Редактирование элемента каталога");
     it("Статические страницы", async function() {
         const titles = {
@@ -91,7 +103,7 @@ describe("Завершение", function () {
     it("Очистка базы", async function() {
         const db = await DBPool.getConnection().catch(err => { assert.fail(err.message) });
         await db.query("USE catalog;");
-        await db.query(`DELETE FROM items WHERE LatinName='chamomilla';`);  
+        await db.query(`DELETE FROM items WHERE LatinName='${testRecord.latin}';`);  
         db.end();
     });
     after(()=>{
