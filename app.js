@@ -10,8 +10,9 @@ const parser = bodyParser.urlencoded();
  * @type {mariadb.Connection}
  * */
 let db;
+const PROD = Boolean(process.env.PORT);
 const PORT = process.env.PORT || 5000;
-const connection = process.env.JAWSDB_MARIA_URL ? process.env.JAWSDB_MARIA_URL.replace("mysql","mariadb") : {
+const connection = PROD ? process.env.JAWSDB_MARIA_URL.replace("mysql","mariadb") : {
     host: "localhost",
     user: "daniil",
     password: "12qw"
@@ -20,7 +21,7 @@ console.log(process.env.JAWSDB_MARIA_URL);
 (async function () {
     try {
     db = await mariadb.createConnection(connection).catch(err => {throw new Error("MariaDB connection error:"+err.message)})
-    db.query("USE catalog");
+    if (!PROD) db.query("USE catalog");
 } catch (err) {
     console.error(err);
     process.exit(1);
