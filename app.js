@@ -11,14 +11,15 @@ const parser = bodyParser.urlencoded();
  * */
 let db;
 const PORT = process.env.PORT || 5000;
-
+const connection = process.env.JAWSDB_MARIA_URL || {
+    host: "localhost",
+    user: "daniil",
+    password: "12qw"
+};
+console.log(process.env.JAWSDB_MARIA_URL);
 (async function () {
     try {
-    db = await mariadb.createConnection({
-        host: "localhost",
-        user: "daniil",
-        password: "12qw"
-    }).catch(err => {throw new Error("MariaDB connection error:"+err.message)})
+    db = await mariadb.createConnection(connection).catch(err => {throw new Error("MariaDB connection error:"+err.message)})
     db.query("USE catalog");
 } catch (err) {
     console.error(err);
@@ -65,7 +66,7 @@ app.get("/catalog/:latin/edit", async (req, res) => {
 
 app.post("/catalog/:latin/edit", parser, async (req, res) => {
     const data = req.body;
-    db.query(`UPDATE items SET Name = ${data.name},Description = ${data.description} WHERE LatinName = ${data.latin};`)
+    db.query(`UPDATE items SET Name = '${data.name}',Description = '${data.description}' WHERE LatinName = '${data.latin}';`)
         .then(val => console.log(val))
         .catch(err => console.error(err));
     res.redirect('.');
