@@ -11,7 +11,7 @@ const parser = bodyParser.urlencoded();
  * */
 let db;
 const PORT = process.env.PORT || 5000;
-const connection = process.env.JAWSDB_MARIA_URL || {
+const connection = process.env.JAWSDB_MARIA_URL?.replace("mysql","mariadb") || {
     host: "localhost",
     user: "daniil",
     password: "12qw"
